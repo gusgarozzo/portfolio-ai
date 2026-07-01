@@ -1,0 +1,68 @@
+import type { SkillCategory } from "@/types/portfolio";
+
+export const skills: Record<string, SkillCategory> = {
+  es: {
+    languages: ["TypeScript", "JavaScript", "SQL", "PHP"],
+    frameworks: ["Node.js", "NestJS", "Express.js"],
+    databases: ["PostgreSQL", "Sequelize", "DynamoDB", "Redis", "MongoDB"],
+    cloud: [
+      "AWS Lambda",
+      "API Gateway",
+      "S3",
+      "CloudWatch",
+      "Serverless Architecture",
+      "Docker",
+      "Kubernetes",
+      "Git",
+      "GitHub",
+      "CI/CD",
+    ],
+    architecture: [
+      "Microservicios",
+      "Clean Architecture",
+      "Domain-Driven Design (DDD)",
+      "APIs RESTful",
+      "Patrones Event-Driven",
+      "Swagger/OpenAPI",
+      "AI Pair Programming",
+    ],
+    soft: [
+      "Comunicación técnica",
+      "Resolución de problemas complejos",
+      "Mentalidad de producto",
+      "Orientación a la escalabilidad",
+    ],
+  },
+  en: {
+    languages: ["TypeScript", "JavaScript", "SQL", "PHP"],
+    frameworks: ["Node.js", "NestJS", "Express.js"],
+    databases: ["PostgreSQL", "Sequelize", "DynamoDB", "Redis", "MongoDB"],
+    cloud: [
+      "AWS Lambda",
+      "API Gateway",
+      "S3",
+      "CloudWatch",
+      "Serverless Architecture",
+      "Docker",
+      "Kubernetes",
+      "Git",
+      "GitHub",
+      "CI/CD",
+    ],
+    architecture: [
+      "Microservices",
+      "Clean Architecture",
+      "Domain-Driven Design (DDD)",
+      "RESTful APIs",
+      "Event-Driven Patterns",
+      "Swagger/OpenAPI",
+      "AI Pair Programming",
+    ],
+    soft: [
+      "Technical Communication",
+      "Complex Problem Solving",
+      "Product Mindset",
+      "Scalability Focus",
+    ],
+  },
+};
