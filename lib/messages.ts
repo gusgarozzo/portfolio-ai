@@ -3,6 +3,21 @@ export type Locale = "es" | "en";
 type MessagesMap = Record<string, { es: string; en: string }>;
 
 export const messages: MessagesMap = {
+  // Chat
+  ASK_GUSTAVO: { es: "ASK_GUSTAVO", en: "ASK_GUSTAVO" },
+  CHAT_TITLE: { es: "SYS.QUERY v1.0", en: "SYS.QUERY v1.0" },
+  CHAT_INPUT_PLACEHOLDER: { es: "Escribí tu consulta...", en: "Ask about my profile..." },
+  CHAT_PROCESSING: { es: "PROCESSING...", en: "PROCESSING..." },
+  CHAT_RATE_LIMITED: {
+    es: "Demasiadas solicitudes. Esperá un momento antes de enviar otro mensaje.",
+    en: "Too many requests. Please wait before sending another message.",
+  },
+  CHAT_ERROR: {
+    es: "Error al procesar la consulta. Intentá de nuevo.",
+    en: "Failed to process your request. Please try again.",
+  },
+  CHAT_CLOSE: { es: "CERRAR", en: "CLOSE" },
+  CHAT_OPEN: { es: "CONSULTAR", en: "QUERY" },
   // Navbar
   SYS_AUTH: { es: "SYS.AUTH", en: "SYS.AUTH" },
   STATUS: { es: "STATUS: READY_FOR_INTEGRATION", en: "STATUS: READY_FOR_INTEGRATION" },

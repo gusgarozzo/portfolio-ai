@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter, JetBrains_Mono } from "next/font/google";
 import SystemStatusBar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import AskGustavo from "@/components/chat/AskGustavo";
 import { LocaleProvider } from "@/lib/locale-context";
 import "./globals.css";
 
@@ -59,6 +60,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <AskGustavo />
         </LocaleProvider>
       </body>
     </html>
