@@ -1,3 +1,25 @@
+## Sesión — 2026-07-02 19:02
+
+### Tareas completadas
+- Scope guard implementado: pre-filtro en servidor que bloquea off-topic antes de llamar a Groq
+- System prompt rediseñado: mucho más estricto, con CV embebido en `<CV_DATA>` y ejemplos explícitos de off-topic
+- 16 tests para scope-guard (8 on-topic allow, 6 off-topic block, 2 edge cases)
+- 42 tests totales, 7 suites — todos pasan
+- Build exitoso (0 errores, 0 warnings TS)
+
+### Archivos creados / modificados
+- `lib/scope-guard.ts` — pre-filtro con 12 patrones regex (recetas, código, matemáticas, traducción, poemas, noticias, opiniones, clima, precios, dólar, juegos/series)
+- `lib/scope-guard.test.ts` — 16 tests cubriendo allow/block/edge cases
+- `app/api/chat/route.ts` — system prompt mucho más estricto con `<CV_DATA>` embebido, regla ABSOLUTE con mensaje de rechazo exacto, scope guard integrado antes de llamar a Groq
+
+### Decisiones técnicas
+- Scope guard usa regex con heurísticas simples (sin ML, sin dependencias) para bloquear off-topic obvio sin llamar a la API de Groq (ahorra latencia y tokens)
+- CV data se inyecta DENTRO del system prompt (en `<CV_DATA>`) en vez de como mensaje user aparte, lo que le da más peso semántico
+- Si el guard bloquea, responde instantáneamente sin consumir API
+
+### Pendientes
+- Probar en vivo con preguntas off-topic reales (requiere GROQ_API_KEY en .env.local)
+
 ## Sesión — 2026-07-02 18:25
 
 ### Tareas completadas

@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { buildCvContext } from "@/lib/build-cv-context";
-
-const SYSTEM_INSTRUCTION = `You are ASK_GUSTAVO, a terminal-style assistant for Gustavo Garozzo's portfolio.
-
-RULES:
-- Answer about Gustavo Garozzo's professional career, experience, projects, technical skills, education, certifications, and also his personal interests (technology, Formula 1), work philosophy, and values — all from the provided CV/about-me data.
-- If asked about anything outside this scope (random topics, code requests, opinions on third parties, etc.), politely redirect: "I can only answer questions about Gustavo Garozzo's professional profile."
-- Tone: professional with a sysadmin/terminal vibe. Concise responses (2-4 lines unless detail is requested).
-- Respond in the same language the user writes to you (Spanish or English).
-- If you don't know something specific, say so clearly — don't invent.`;
+import { checkScope } from "@/lib/scope-guard";
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "llama-3.3-70b-versatile";
@@ -21,8 +13,8 @@ export async function POST(request: NextRequest) {
       request.headers.get("x-real-ip") ??
       "unknown";
 
-    const { allowed } = checkRateLimit(ip);
-    if (!allowed) {
+    const { allowed: rateLimitOk } = checkRateLimit(ip);
+    if (!rateLimitOk) {
       return NextResponse.json(
         { reply: "[RATE_LIMIT_EXCEEDED] Too many requests. Please wait before sending another message." },
         { status: 429 },
@@ -40,6 +32,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const scopeCheck = checkScope(message);
+    if (!scopeCheck.allowed) {
+      return NextResponse.json({ reply: scopeCheck.reply! });
+    }
+
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
@@ -50,9 +47,23 @@ export async function POST(request: NextRequest) {
 
     const cvContext = buildCvContext();
 
+    const systemPrompt = `You are ASK_GUSTAVO, a strict terminal assistant for Gustavo Garozzo's portfolio.
+
+You have access to the following CV data — this is the ONLY information you know:
+
+<CV_DATA>
+${cvContext}
+</CV_DATA>
+
+ABSOLUTE RULES (never violate these):
+1. You ONLY answer questions about Gustavo Garozzo's career, experience, projects, technical skills, education, certifications, professional traits, and personal interests (technology, Formula 1).
+2. If the question is about ANYTHING else — including recipes, coding help, math, science, news, weather, translations, poems, stories, opinions on third parties, prices, games, movies — you MUST reply EXACTLY with: "I can only answer questions about Gustavo Garozzo's professional profile." Do not add anything else.
+3. Be concise (2-4 lines unless detail is requested).
+4. Respond in the same language the user writes (Spanish or English).
+5. If you don't know something specific about Gustavo, say so clearly — never invent.`;
+
     const messages = [
-      { role: "system" as const, content: SYSTEM_INSTRUCTION },
-      { role: "user" as const, content: `Here is Gustavo Garozzo's CV data:\n\n${cvContext}\n\nUse this information to answer questions about him.` },
+      { role: "system" as const, content: systemPrompt },
       ...history.map((msg) => ({
         role: msg.role as "user" | "assistant",
         content: msg.text,
