@@ -1,3 +1,55 @@
+## Sesión — 2026-07-02 18:25
+
+### Tareas completadas
+- Feature F08 — CI/CD Pipeline: spec, plan, tasks + GitHub Actions workflow (`ci.yml`)
+- Feature F09 — Additional Unit Tests: spec, plan, tasks + 3 nuevos test files
+- Tests pasan: 12 → 26 tests (14 nuevos, 0 fallos)
+- Build exitoso (0 errores, 0 warnings TS)
+
+### Archivos creados / modificados
+- `.github/workflows/ci.yml` — GitHub Actions: checkout → Node 20 → npm ci → lint → test → build → audit
+- `features/f08-ci-cd/spec.md`
+- `features/f08-ci-cd/plan.md`
+- `features/f08-ci-cd/tasks.md`
+- `features/f09-unit-tests/spec.md`
+- `features/f09-unit-tests/plan.md`
+- `features/f09-unit-tests/tasks.md`
+- `lib/rate-limit.test.ts` — 5 tests (first call, 20 ok, 21st blocked, window reset, IP isolation)
+- `lib/messages.test.ts` — 4 tests (ES strings, EN strings, unknown key fallback, all keys non-empty)
+- `lib/build-cv-context.test.ts` — 5 tests (locale markers, personal fields, section headers, min length, About section)
+
+### Decisiones técnicas
+- CI usa `npm ci` en vez de `npm install` para instalaciones determinísticas (reproducibilidad)
+- npm audit se ejecuta con `--audit-level=high` para no fallar por vulnerabilidades bajas/modadas
+- `rate-limit.test.ts` usa `vi.useFakeTimers()` para manipular el reloj sin esperar 10 min reales
+- `build-cv-context.test.ts` testea output real (integra datos reales de `data/`), no mockea nada
+- No se usan dependencias nuevas en ningún test
+
+### Pendientes
+- Hacer commit y push del CI workflow para validar que corre en GitHub Actions
+- Ninguno
+
+## Sesión — 2026-07-02 10:05
+
+### Tareas completadas
+- Migración del chatbot ASK_GUSTAVO de Gemini a Groq
+- Chat ahora responde sobre vida personal e intereses del autor (no solo profesional)
+
+### Archivos creados / modificados
+- `app/api/chat/route.ts` — endpoint migrado a Groq (OpenAI-compatible): endpoint, auth, body format, modelo `llama-3.3-70b-versatile`
+- `.env.example` — `GEMINI_API_KEY` → `GROQ_API_KEY`
+- `components/chat/AskGustavo.tsx` — history role mapping corregido (`"model"` → `"assistant"`)
+- `app/api/chat/route.ts` — system instruction ampliada para permitir preguntas sobre intereses personales, filosofía y valores
+- `.docs/doc.md` — registro de sesión agregado
+
+### Decisiones técnicas
+- Se usa la API OpenAI-compatible de Groq en vez de su SDK (sin nuevas dependencias)
+- El CV context (`buildCvContext`) ya incluía about-me.ts, solo se ajustó la regla en system prompt
+
+### Pendientes
+- El usuario debe crear `GROQ_API_KEY` en `.env.local`
+- Verificar build y probar en vivo
+
 ## Sesión — 2026-07-01 17:28
 
 ### Tareas completadas

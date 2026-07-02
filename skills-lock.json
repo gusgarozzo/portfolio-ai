@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "ci-cd-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "ci-cd-best-practices/SKILL.md",
+      "computedHash": "16c5f5bafd768c74bbf75b69b2d73c7fe2f2915ce57774ae4c6d7b285fd5d357"
+    },
     "frontend-design": {
       "source": "anthropics/skills",
       "sourceType": "github",
