@@ -4,10 +4,23 @@ import { buildCvContext } from "@/lib/build-cv-context";
 import { checkScope } from "@/lib/scope-guard";
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = "llama-3.3-70b-versatile";
+const MODEL = "openai/gpt-oss-20b";
 
 export async function POST(request: NextRequest) {
   try {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    if (siteUrl) {
+      const origin = request.headers.get("origin");
+      const referer = request.headers.get("referer");
+      const from = origin ?? referer;
+      if (!from || !from.startsWith(siteUrl)) {
+        return NextResponse.json(
+          { reply: "[ERROR] Forbidden" },
+          { status: 403 },
+        );
+      }
+    }
+
     const ip =
       request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
       request.headers.get("x-real-ip") ??

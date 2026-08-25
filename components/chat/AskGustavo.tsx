@@ -14,6 +14,7 @@ export default function AskGustavo() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "rate_limited">("idle");
+  const [cooldown, setCooldown] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -26,6 +27,12 @@ export default function AskGustavo() {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const id = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(id);
+  }, [cooldown]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -64,6 +71,7 @@ export default function AskGustavo() {
 
       setStatus("idle");
       setMessages((prev) => [...prev, { role: "assistant", text: data.reply }]);
+      setCooldown(15);
     } catch {
       setStatus("error");
       setMessages((prev) => [...prev, { role: "assistant", text: t("CHAT_ERROR") }]);
@@ -143,17 +151,17 @@ export default function AskGustavo() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={t("CHAT_INPUT_PLACEHOLDER")}
-                disabled={status === "loading"}
+                disabled={status === "loading" || cooldown > 0}
                 className="flex-1 bg-surface-deep border border-border px-3 py-2 data-mono text-text-primary placeholder:text-text-muted outline-none focus:border-accent transition-colors disabled:opacity-40"
                 aria-label={t("CHAT_INPUT_PLACEHOLDER")}
               />
               <button
                 type="submit"
-                disabled={!input.trim() || status === "loading"}
+                disabled={!input.trim() || status === "loading" || cooldown > 0}
                 className="px-4 py-2 bg-accent text-black data-mono font-medium hover:brightness-110 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                 aria-label="Send"
               >
-                SEND
+                {cooldown > 0 ? `${cooldown}s` : "SEND"}
               </button>
             </form>
           </div>
