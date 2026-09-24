@@ -130,6 +130,14 @@ Iteración aprobada sobre el rediseño: incorporar la foto real de Gustavo y fot
 - Mobile: hero 3:2 al ancho completo; retrato ~80vw; covers mantienen altura de tarjeta; tiers apilan.
 
 ## NO validado aún
-- Revisión visual real en navegador (browser MCP no disponible) en 375/768/1024/1280 — pendiente manual (Hero, retrato, featured, densidad/whitespace, crop mobile, equilibrio texto/imagen).
-- Calidad estética final de las piezas generadas (el agente no puede inspeccionar imágenes; el owner decide).
-- OG image: no generada en esta iteración (diferido a pedido explícito).
+> **Actualización 2026-09-24:** el owner cierra estos pendientes de validación
+> manual; los puntos de abajo pasan a revisión humana del sitio publicado
+> (no son tareas del repo). La OG image, en cambio, ya se generó y sirve
+> (`.docs/DOC.md`, sesión 2026-09-24).
+- ~~Revisión visual real en navegador (browser MCP no disponible) en
+  375/768/1024/1280 — pendiente manual (Hero, retrato, featured,
+  densidad/whitespace, crop mobile, equilibrio texto/imagen).~~
+- ~~Calidad estética final de las piezas generadas (el agente no puede
+  inspeccionar imágenes; el owner decide).~~
+- ~~OG image: no generada en esta iteración (diferido a pedido explícito).~~ →
+  Resuelta: `app/opengraph-image.tsx` sirve 200 `image/png` 1200×630.

@@ -658,6 +658,32 @@
   `/cv-gustavo-garozzo-es.pdf`=200, `/cv-gustavo-garozzo-en.pdf`=200,
   `/images/portrait.webp`=200. Sin errores en el log del server.
 
-### Pendientes owner restantes (solo Groq/TPM)
-- Completar matriz 160 y judge (12+12): comando de reanudación en
-  `.docs/EVAL_REPORT.md`; requiere TPM/API key.
+### Pendientes owner restantes (solo Groq/TPM) — CANCELADOS
+- Completar matriz 160 y judge (12+12): cancelado por decisión del owner
+  2026-09-24. La evidencia parcial (`post_scope.json` 80/80) queda como
+  resultado final; el harness `run.mjs` se conserva pero no se reanuda.
+
+## Sesión — 2026-09-24 — Cierre definitivo (owner cancela pendientes restantes)
+
+### Decisiones
+- **Matriz 160/160 + judge (12+12): CANCELADA.** Única tarea pendiente de
+  producto tras el cierre; dependía de TPM de Groq (free, 8000/min). El owner
+  decide cerrar con la evidencia parcial documentada (80/80 scope determinista,
+  gate 7/7, tests 59/59). Harness y datos se mantienen en el repo como
+  referencia, no como tarea abierta.
+- **Verificación visual manual en navegador** (320/375/768/1024/1280): se
+  descarta como bloqueante de cierre. El owner revisará el sitio publicado;
+  los audits de código ya están documentados (`.docs/DESIGN_AUDIT.md`).
+- **Keyboard navigation audit completo**: cubierto por implementación (SkipLink,
+  focus states, headings, reduced-motion) documentada; sin checklist adicional
+  requerida para el cierre.
+- **Checklist post-deploy de `.docs/PRODUCTION_AUDIT.md` (sección 3)**: los
+  puntos verificables en esta iteración se validaron (chat streaming real con
+  GROQ_API_KEY, OG image, PDFs, CI success en `7f9d94c`). Los restantes quedan
+  como verificación del owner sobre el sitio publicado, no como tareas del repo.
+
+### Validación
+- `npm run lint` limpio · `npm run test` 59/59 · `npm run build` OK.
+- Chat en vivo validado: `/api/chat` 200 (origin localhost y producción),
+  respuesta real del LLM; 403 solo sin origin / origin ajeno.
+- CI GitHub Actions en `7f9d94c`: completed / success.

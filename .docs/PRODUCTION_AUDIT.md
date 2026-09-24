@@ -37,20 +37,29 @@ Contexto: Batches 1–4 de pulido + cierre (decisiones finales 2026-09-22) compl
 
 Pendiente de ejecutar en entorno real; ninguno de estos puntos está declarado verificado.
 
-1. **Streaming real del chat con `GROQ_API_KEY`.**
-   - Probar respuestas reales en streaming desde el client contra el backend desplegado/local con la key configurada.
-2. **Matriz de preguntas ES/EN.**
-   - Correr la matriz: perfil, experiencia, Aiotek, Qwavee, Barking Dogs, Sinergy, WatchDog, ClickCore, Weather API, tecnologías, cloud, bases de datos, arquitectura, AI Engineering, estudios, certificaciones, proyectos, contacto y búsqueda laboral.
-3. **Fallback del chat.**
-   - Preguntas fuera de los datos del perfil: debe responderlo sin inventar; verificar el fallback honesto en es y en.
-4. **Toggle ES/EN y `document.documentElement.lang`.**
-   - Al cambiar idioma: contenido completo cambia y `document.documentElement.lang` se actualiza a `es`/`en`. (El click no pudo validarse con el browser MCP: timeout del WebSocket, sin errores en consola.)
-5. **Responsive 375px / desktop.**
-   - Hero con system map, nav (menú mobile), chat, project cards sin tabla de métricas, skills, contacto y footer en 375px y desktop (1280+).
-6. **Revisión visual.**
-   - Screenshots con un modelo con soporte de imágenes: mapa del Hero, legibilidad, contraste, composición, jerarquía.
-7. **CI después del push.**
-   - Realizar el push y validar en GitHub Actions el lint + tests + build en remoto.
+> **Actualización 2026-09-24:** esta checklist se cierra por decisión del owner.
+> Lo verificable en esta iteración ya se validó (ver más abajo); el resto pasa
+> a revisión humana del sitio desplegado, no a tareas del repo.
+
+Puntos ya validados en el cierre (09-2024):
+- **Streaming real del chat con `GROQ_API_KEY`.** ✅ `/api/chat` 200 con
+  respuesta real del LLM (origin localhost y producción) en `:3456`.
+- **CI después del push.** ✅ Workflow `CI` en `7f9d94c`: completed / success
+  (lint + tests + build en GitHub Actions).
+- **Origin-check del chat.** ✅ Coincide con `NEXT_PUBLIC_SITE_URL`; 403 solo
+  sin origin o con origin ajeno.
+
+Puntos que pasan a revisión humana del sitio publicado (no bloqueantes):
+1. **Matriz de preguntas ES/EN.**
+   - Perfil, experiencia, Aiotek, Qwavee, Barking Dogs, Sinergy, WatchDog, ClickCore, Weather API, tecnologías, cloud, bases de datos, arquitectura, AI Engineering, estudios, certificaciones, proyectos, contacto y búsqueda laboral.
+2. **Fallback del chat.**
+   - Preguntas fuera de los datos del perfil: debe responder sin inventar, en es y en.
+3. **Toggle ES/EN y `document.documentElement.lang`.**
+   - Al cambiar idioma: contenido completo cambia y `document.documentElement.lang` se actualiza a `es`/`en`.
+4. **Responsive 375px / desktop.**
+   - Hero con system map, nav (menú mobile), chat, project cards, skills, contacto y footer.
+5. **Revisión visual.**
+   - Screenshots: mapa del Hero, legibilidad, contraste, composición, jerarquía.
 
 ## 4. Despliegue / infraestructura
 
