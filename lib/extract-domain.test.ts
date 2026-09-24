@@ -3,7 +3,7 @@ import { extractDomain } from "./extract-domain";
 
 describe("extractDomain", () => {
   it("extracts domain from full URL", () => {
-    expect(extractDomain("https://linkedin.com/in/gustavogarozzo")).toBe(
+    expect(extractDomain("https://www.linkedin.com/in/gusgarozzo/")).toBe(
       "linkedin.com"
     );
   });

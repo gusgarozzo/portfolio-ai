@@ -5,7 +5,7 @@ export const experience: Record<string, Experience[]> = {
     {
       id: "aiotek",
       company: "Aiotek",
-      role: "Desarrollador Node.js Ssr.",
+      role: "Desarrollador Node.js Semi-Senior",
       period: "Septiembre 2023 – Junio 2026",
       location: "Tandil, Argentina",
       highlights: [
@@ -44,7 +44,7 @@ export const experience: Record<string, Experience[]> = {
     {
       id: "aiotek",
       company: "Aiotek",
-      role: "Node.js Developer SSR",
+      role: "Node.js Developer (Mid-level)",
       period: "September 2023 – June 2026",
       location: "Tandil, Argentina",
       highlights: [

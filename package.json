@@ -9,10 +9,10 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "eval:chat": "node --experimental-strip-types --env-file=.env.local lib/chat/eval/run.mjs --run --base http://localhost:3456 --out lib/chat/eval/results/last.json --gen 12 --judge 12 --pace 5000",
     "preview": "next start"
   },
   "dependencies": {
-    "gsap": "^3.15.0",
     "next": "16.3.5",
     "react": "19.2.4",
     "react-dom": "19.2.4"

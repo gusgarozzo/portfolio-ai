@@ -36,6 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# auditoría visual / screenshots (una vez por fase)
+.shots/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.shots.zip

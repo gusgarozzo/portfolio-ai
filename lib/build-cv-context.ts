@@ -7,10 +7,6 @@ import { certifications } from "@/data/certifications";
 import { education } from "@/data/education";
 import { aboutMe } from "@/data/about-me";
 
-function formatList(items: string[]): string {
-  return items.map((i) => `  - ${i}`).join("\n");
-}
-
 function buildLocaleSection(locale: "es" | "en"): string {
   const p = personal[locale];
   const exp = experience[locale];
@@ -29,7 +25,15 @@ function buildLocaleSection(locale: "es" | "en"): string {
   lines.push(`Title: ${p.title}`);
   lines.push(`Location: ${p.location}`);
   lines.push(`Email: ${p.email}`);
+  lines.push(`Cv: ${p.cvUrl}`);
   lines.push(`Open to: ${p.openTo}`);
+  lines.push("");
+
+  lines.push("Contact:");
+  lines.push(`  Email: ${p.email}`);
+  lines.push(`  Phone: ${p.phone}`);
+  lines.push(`  LinkedIn: ${p.linkedin}`);
+  lines.push(`  GitHub: ${p.github}`);
   lines.push("");
 
   lines.push("About:");
@@ -52,18 +56,21 @@ function buildLocaleSection(locale: "es" | "en"): string {
   lines.push("Projects:");
   for (const pr of proj) {
     lines.push(`  ${pr.name} (${pr.subtitle}) — ${pr.role}`);
+    lines.push(`    Category: ${pr.category}`);
     lines.push(`    Stack: ${pr.stack.join(", ")}`);
     lines.push(`    Description: ${pr.description}`);
+    for (const highlight of pr.highlights ?? []) {
+      lines.push(`    Highlight: ${highlight}`);
+    }
   }
   lines.push("");
 
   lines.push("Skills:");
-  lines.push(`  Languages: ${sk.languages.join(", ")}`);
-  lines.push(`  Frameworks: ${sk.frameworks.join(", ")}`);
-  lines.push(`  Databases: ${sk.databases.join(", ")}`);
-  lines.push(`  Cloud & Infrastructure: ${sk.cloud.join(", ")}`);
-  lines.push(`  Architecture & Practices: ${sk.architecture.join(", ")}`);
-  lines.push(`  Soft Skills: ${sk.soft.join(", ")}`);
+  lines.push("  Skill tiers: CORE = primary professional experience; SUPPORTING = narrower but real scope; LEARNING = conceptual/training, NOT professional experience; AI = line in development, NOT senior AI expertise.");
+  lines.push(`  Core: ${sk.core.join(", ")}`);
+  lines.push(`  Supporting: ${sk.supporting.join(", ")}`);
+  lines.push(`  Learning / conceptual: ${sk.learning.join(", ")}`);
+  lines.push(`  AI Engineering (in development): ${sk.ai.join(", ")}`);
   lines.push("");
 
   lines.push("Certifications:");
@@ -83,6 +90,7 @@ function buildLocaleSection(locale: "es" | "en"): string {
   return lines.join("\n");
 }
 
-export function buildCvContext(): string {
+export function buildCvContext(locale?: "es" | "en"): string {
+  if (locale === "es" || locale === "en") return buildLocaleSection(locale);
   return `${buildLocaleSection("es")}\n${buildLocaleSection("en")}`;
 }

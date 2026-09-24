@@ -3,131 +3,169 @@
 import { personal as personalData } from "@/data/personal";
 import { useLocale } from "@/lib/locale-context";
 import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
 
-export default function SystemStatusBar() {
+const SECTION_IDS = ["about", "experience", "projects", "skills", "formacion", "contact"];
+
+export default function Navbar() {
   const { locale, setLocale, t } = useLocale();
   const personal = personalData[locale];
-  const [time, setTime] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const statusRef = useRef<HTMLSpanElement>(null);
-  const nameRef = useRef<HTMLSpanElement>(null);
-  const locRef = useRef<HTMLSpanElement>(null);
+  const [activeId, setActiveId] = useState("");
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const sections = SECTION_IDS
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+    if (sections.length === 0) return;
+
+    if (typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActiveId(entry.target.id);
+        }
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
+    );
+
+    for (const section of sections) observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
 
   const sections = [
+    { id: "about", label: t("NAV_ABOUT") },
     { id: "experience", label: t("NAV_EXPERIENCE") },
     { id: "projects", label: t("NAV_PROJECTS") },
     { id: "skills", label: t("NAV_SKILLS") },
-    { id: "certifications", label: t("NAV_CERTIFICATIONS") },
+    { id: "formacion", label: t("NAV_FORMACION") },
     { id: "contact", label: t("NAV_CONTACT") },
   ];
 
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTime(
-        now.toLocaleTimeString(locale === "en" ? "en-US" : "es-AR", {
-          hour: "2-digit",
-          minute: "2-digit",
-          timeZone: "America/Argentina/Buenos_Aires",
-        }),
-      );
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 60000);
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        nameRef.current,
-        { opacity: 0, x: -8 },
-        { opacity: 1, x: 0, duration: 0.8, ease: "power2.out" },
-      );
-      gsap.fromTo(
-        locRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.6, delay: 0.6, ease: "power2.out" },
-      );
-      gsap.fromTo(
-        statusRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.6, delay: 1.2, ease: "power2.out" },
-      );
-    });
-
-    return () => {
-      ctx.revert();
-      clearInterval(interval);
-    };
-  }, [locale]);
-
-  const handleClick = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-    setMenuOpen(false);
-  };
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <header
-      className="sticky top-0 z-50 bg-surface border-b border-border"
+      className="sticky top-0 z-50 bg-paper/85 backdrop-blur-md border-b border-line"
       data-testid="navbar"
     >
-      <div className="flex items-center justify-between h-12 px-6 max-w-[1440px] mx-auto">
-        <div className="flex items-center gap-3 min-w-0">
-          <span className="label-mono text-text-muted shrink-0">
-            {t("SYS_AUTH")}
-          </span>
-          <span
-            ref={nameRef}
-            className="label-mono text-text-primary truncate"
-          >
+      <div className="max-w-[1200px] mx-auto px-6 h-16 md:h-[68px] flex items-center justify-between gap-6">
+        <a
+          href="#top"
+          className="flex items-baseline gap-3 min-w-0 shrink-0"
+          aria-label={personal.name}
+          onClick={closeMenu}
+        >
+          <span className="font-display text-[15px] font-bold tracking-tight text-ink whitespace-nowrap">
             {personal.name}
           </span>
-        </div>
-
-        <div className="hidden md:flex items-center gap-2">
-          <span ref={locRef} className="label-mono text-text-muted truncate max-w-64">
-            {personal.location}
+          <span className="hidden md:inline meta text-ink-mute truncate">
+            {personal.title}
           </span>
-          <span className="label-mono text-text-muted mx-1">·</span>
-          <span className="label-mono text-text-muted">{time || "..."}</span>
-        </div>
+        </a>
+
+        <nav
+          className="hidden lg:flex items-center gap-1"
+          aria-label={t("NAV_MENU_LABEL")}
+        >
+          {sections.map((s) => (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              aria-current={activeId === s.id ? "true" : undefined}
+              className={`px-3 py-2 min-h-11 inline-flex items-center rounded-md text-[14px] font-medium transition-colors ${
+                activeId === s.id
+                  ? "text-signal font-semibold"
+                  : "text-ink-soft hover:text-ink"
+              }`}
+              onClick={closeMenu}
+            >
+              {s.label}
+            </a>
+          ))}
+        </nav>
 
         <div className="flex items-center gap-3">
+          <div
+            className="flex items-center rounded-full border border-line bg-paper-2 p-0.5"
+            role="group"
+            aria-label={t("NAV_LANGUAGE")}
+          >
+            {(["es", "en"] as const).map((l) => (
+              <button
+                key={l}
+                type="button"
+                aria-pressed={locale === l}
+                onClick={() => setLocale(l)}
+                className={`rounded-full px-3 py-1.5 min-h-[32px] text-[13px] font-semibold transition-colors ${
+                  locale === l
+                    ? "bg-ink text-paper"
+                    : "text-ink-soft hover:text-ink"
+                }`}
+              >
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
+          <a
+            href="#contact"
+            className="hidden xl:inline-flex items-center rounded-md bg-signal text-white text-[14px] font-semibold px-5 min-h-11 hover:bg-signal-strong transition-colors"
+          >
+            {t("NAV_CONTACT_CTA")}
+          </a>
           <button
-            onClick={() => setLocale(locale === "es" ? "en" : "es")}
-            className="label-mono text-text-muted hover:text-accent transition-colors mr-2"
-            aria-label="Toggle language"
+            ref={menuButtonRef}
+            type="button"
+            className="lg:hidden inline-flex flex-col items-center justify-center gap-1.5 w-11 h-11 -mr-2 rounded-md text-ink hover:bg-paper-2 transition-colors"
+            aria-label={menuOpen ? t("CLOSE") : t("MENU")}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
           >
-            {locale === "es" ? "EN" : "ES"}
-          </button>
-          <span className="pip animate-pulse" />
-          <span
-            ref={statusRef}
-            className="hidden md:inline label-mono text-accent"
-          >
-            {t("STATUS")}
-          </span>
-          <button
-            className="md:hidden label-mono text-text-muted ml-2"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={t("NAV_MENU_LABEL")}
-          >
-            {menuOpen ? t("CLOSE") : t("MENU")}
+            <span
+              className={`block h-0.5 w-5 bg-current rounded-full transition-transform duration-200 ${
+                menuOpen ? "translate-y-1 rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`block h-0.5 w-5 bg-current rounded-full transition-transform duration-200 ${
+                menuOpen ? "-translate-y-1 -rotate-45" : ""
+              }`}
+            />
           </button>
         </div>
       </div>
 
       {menuOpen && (
-        <nav className="md:hidden border-t border-border">
-          <ul className="flex flex-col px-6 py-4 gap-3">
+        <nav
+          className="lg:hidden border-t border-line bg-paper"
+          aria-label={t("NAV_MENU_LABEL")}
+        >
+          <ul className="max-w-[1200px] mx-auto px-6 py-4 flex flex-col">
             {sections.map((s) => (
               <li key={s.id}>
-                <button
-                  onClick={() => handleClick(s.id)}
-                  className="label-mono text-text-secondary hover:text-accent w-full text-left transition-colors"
+                <a
+                  href={`#${s.id}`}
+                  onClick={closeMenu}
+                  aria-current={activeId === s.id ? "true" : undefined}
+                  className={`block py-3.5 min-h-12 text-[15px] font-semibold border-b border-line last:border-b-0 transition-colors ${
+                    activeId === s.id ? "text-signal" : "text-ink hover:text-signal"
+                  }`}
                 >
                   {s.label}
-                </button>
+                </a>
               </li>
             ))}
           </ul>

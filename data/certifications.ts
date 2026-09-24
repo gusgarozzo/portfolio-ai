@@ -5,17 +5,19 @@ const es: Certification[] = [
     name: "Arquitectura de Software con IA: Aplicación Práctica",
     issuer: "LinkedIn",
     year: 2026,
+    featured: true,
   },
   {
     name: "Programación en Pareja (Pair Programming) con IA",
     issuer: "LinkedIn",
     year: 2026,
   },
-  { name: "Depuración de Código: Node", issuer: "LinkedIn", year: 2026 },
+  { name: "Depuración de Código: Node", issuer: "LinkedIn", year: 2026, featured: true },
   {
     name: "Arquitectura de Software: Diseño Guiado por el Dominio (DDD)",
     issuer: "LinkedIn",
     year: 2026,
+    featured: true,
   },
   { name: "Domina la IA con Gemini", issuer: "Google", year: 2025 },
   {
@@ -32,6 +34,7 @@ const es: Certification[] = [
     name: "Introducción a AWS: Conceptos de la Nube",
     issuer: "LinkedIn",
     year: 2025,
+    featured: true,
   },
   {
     name: "Ingeniería de Prompts: Aprende a Hablar con una IA Generativa",
@@ -50,17 +53,19 @@ const en: Certification[] = [
     name: "Software Architecture with AI: Practical Application",
     issuer: "LinkedIn",
     year: 2026,
+    featured: true,
   },
   {
     name: "Pair Programming with AI",
     issuer: "LinkedIn",
     year: 2026,
   },
-  { name: "Code Debugging: Node", issuer: "LinkedIn", year: 2026 },
+  { name: "Code Debugging: Node", issuer: "LinkedIn", year: 2026, featured: true },
   {
     name: "Software Architecture: Domain-Driven Design (DDD)",
     issuer: "LinkedIn",
     year: 2026,
+    featured: true,
   },
   { name: "Mastering AI with Gemini", issuer: "Google", year: 2025 },
   {
@@ -77,6 +82,7 @@ const en: Certification[] = [
     name: "Introduction to AWS: Cloud Concepts",
     issuer: "LinkedIn",
     year: 2025,
+    featured: true,
   },
   {
     name: "Prompt Engineering: How to Talk to Generative AI",

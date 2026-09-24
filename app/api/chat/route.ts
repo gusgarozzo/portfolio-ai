@@ -1,21 +1,63 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { buildCvContext } from "@/lib/build-cv-context";
-import { checkScope } from "@/lib/scope-guard";
+import { checkGuard } from "@/lib/chat/guard";
+import { extractHints } from "@/lib/chat/intents";
+import { gateExternalAccess } from "@/lib/chat/gate";
+import { classifyMessage } from "@/lib/chat/classify";
+import {
+  buildGeneratorSystem,
+  buildGroqMessages,
+  streamAnswer,
+} from "@/lib/chat/answer";
+import { t } from "@/lib/messages";
 
-const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = "openai/gpt-oss-20b";
+const MAX_HISTORY = 20;
+const MAX_TEXT_LENGTH = 2000;
+
+function replyJson(
+  messageKey: string,
+  language: "es" | "en",
+  status = 200,
+  scope = "other",
+  intent = "",
+) {
+  return NextResponse.json(
+    { reply: messageKey === "REPLY_EMPTY_STRING" ? "" : t(messageKey, language) },
+    {
+      status,
+      headers: {
+        "x-chat-scope": scope,
+        "x-chat-intent": intent || "n/a",
+      },
+    },
+  );
+}
+
+function isAuthorizedFrom(from: string | null): boolean {
+  if (!from) return false;
+  if (/^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/.test(from)) {
+    return true;
+  }
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  if (!siteUrl) return true;
+  try {
+    const a = new URL(from);
+    const b = new URL(siteUrl);
+    return a.protocol === b.protocol && a.host === b.host;
+  } catch {
+    return false;
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
     if (siteUrl) {
-      const origin = request.headers.get("origin");
-      const referer = request.headers.get("referer");
-      const from = origin ?? referer;
-      if (!from || !from.startsWith(siteUrl)) {
+      const from = request.headers.get("origin") ?? request.headers.get("referer");
+      if (!isAuthorizedFrom(from)) {
         return NextResponse.json(
-          { reply: "[ERROR] Forbidden" },
+          { reply: "Unauthorized request." },
           { status: 403 },
         );
       }
@@ -29,99 +71,96 @@ export async function POST(request: NextRequest) {
     const { allowed: rateLimitOk } = checkRateLimit(ip);
     if (!rateLimitOk) {
       return NextResponse.json(
-        { reply: "[RATE_LIMIT_EXCEEDED] Too many requests. Please wait before sending another message." },
+        { reply: "Too many requests. Please wait before sending another message." },
         { status: 429 },
       );
     }
 
     const body = await request.json();
     const message = body?.message;
-    const history: { role: "user" | "assistant"; text: string }[] = body?.history ?? [];
+    const history: { role?: string; text?: string }[] = body?.history ?? [];
 
     if (!message || typeof message !== "string") {
       return NextResponse.json(
-        { reply: "[ERROR] Invalid request. 'message' field is required." },
+        { reply: "Invalid request. The 'message' field is required." },
         { status: 400 },
       );
     }
 
-    const scopeCheck = checkScope(message);
-    if (!scopeCheck.allowed) {
-      return NextResponse.json({ reply: scopeCheck.reply! });
+    const safeMessage = message.slice(0, MAX_TEXT_LENGTH);
+
+    const guard = checkGuard(safeMessage);
+    if (!guard.allowed) {
+      const key =
+        guard.reason === "empty"
+          ? "CHAT_EMPTY"
+          : guard.reason === "length"
+            ? "CHAT_BLOCKED"
+            : "CHAT_BLOCKED";
+      return replyJson(key, guard.language);
+    }
+
+    const hints = extractHints(safeMessage, guard.language);
+
+    const gate = gateExternalAccess(safeMessage, hints);
+    if (gate === "out") {
+      return replyJson("CHAT_OUT_OF_SCOPE", guard.language, 200, "out", "external-request");
     }
 
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
-      return NextResponse.json(
-        { reply: "[ERROR] API key not configured." },
-        { status: 500 },
-      );
+      return replyJson("CHAT_UNCONFIGURED", guard.language, 500);
     }
 
-    const cvContext = buildCvContext();
+    const classification = await classifyMessage(safeMessage, hints, apiKey);
+    const scopeLabel = classification.scope === "out" ? "out" : "in";
 
-    const systemPrompt = `You are ASK_GUSTAVO, a strict terminal assistant for Gustavo Garozzo's portfolio.
+    if (classification.scope === "out") {
+      return replyJson("CHAT_OUT_OF_SCOPE", classification.language, 200, scopeLabel, classification.intent);
+    }
 
-You have access to the following CV data — this is the ONLY information you know:
+    const scopeOnly = request.headers.get("x-chat-scope-only") === "1";
+    if (scopeOnly) {
+      return replyJson("REPLY_EMPTY_STRING", classification.language, 200, scopeLabel, classification.intent);
+    }
 
-<CV_DATA>
-${cvContext}
-</CV_DATA>
+    const cvContext = buildCvContext(classification.language);
 
-ABSOLUTE RULES (never violate these):
-1. You ONLY answer questions about Gustavo Garozzo's career, experience, projects, technical skills, education, certifications, professional traits, and personal interests (technology, Formula 1).
-2. If the question is about ANYTHING else — including recipes, coding help, math, science, news, weather, translations, poems, stories, opinions on third parties, prices, games, movies — you MUST reply EXACTLY with: "I can only answer questions about Gustavo Garozzo's professional profile." Do not add anything else.
-3. Be concise (2-4 lines unless detail is requested).
-4. Respond in the same language the user writes (Spanish or English).
-5. If you don't know something specific about Gustavo, say so clearly — never invent.`;
+    const trimmedHistory: { role: "user" | "assistant"; text: string }[] =
+      Array.isArray(history)
+        ? history
+            .filter(
+              (m): m is { role: "user" | "assistant"; text: string } =>
+                (m.role === "user" || m.role === "assistant") &&
+                typeof m.text === "string",
+            )
+            .map((m) => ({ role: m.role, text: m.text.slice(0, MAX_TEXT_LENGTH) }))
+            .slice(-MAX_HISTORY)
+        : [];
 
-    const messages = [
-      { role: "system" as const, content: systemPrompt },
-      ...history.map((msg) => ({
-        role: msg.role as "user" | "assistant",
-        content: msg.text,
-      })),
-      { role: "user" as const, content: message },
-    ];
+    const system = buildGeneratorSystem(cvContext, classification);
+    const groqMessages = buildGroqMessages(system, trimmedHistory, safeMessage);
 
-    const groqRes = await fetch(GROQ_API_URL, {
-      method: "POST",
+    const result = await streamAnswer(apiKey, groqMessages);
+
+    if (!result.ok || !result.stream) {
+      console.error("Chat stream failed, status:", result.status);
+      return replyJson("CHAT_ERROR", classification.language, 502, scopeLabel, classification.intent);
+    }
+
+    return new Response(result.stream, {
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-cache, no-transform",
+        "X-Content-Type-Options": "nosniff",
+        "x-chat-scope": scopeLabel,
+        "x-chat-intent": classification.intent,
       },
-      body: JSON.stringify({
-        model: MODEL,
-        messages,
-        max_tokens: 512,
-        temperature: 0.4,
-      }),
     });
-
-    if (!groqRes.ok) {
-      const errText = await groqRes.text().catch(() => "Unknown error");
-      console.error("Groq API error:", groqRes.status, errText);
-      return NextResponse.json(
-        { reply: "[ERROR] AI service unavailable. Please try again later." },
-        { status: 502 },
-      );
-    }
-
-    const data = await groqRes.json();
-    const reply = data?.choices?.[0]?.message?.content ?? "";
-
-    if (!reply) {
-      return NextResponse.json(
-        { reply: "[ERROR] Empty response from AI service." },
-        { status: 502 },
-      );
-    }
-
-    return NextResponse.json({ reply });
   } catch (error) {
     console.error("Chat API error:", error);
     return NextResponse.json(
-      { reply: "[ERROR] Internal server error. Please try again." },
+      { reply: "Internal server error. Please try again." },
       { status: 500 },
     );
   }

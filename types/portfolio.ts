@@ -13,6 +13,7 @@ export interface PersonalInfo {
   phone: string;
   linkedin: string;
   github: string;
+  cvUrl: string;
   openTo: string;
   heroStats: HeroStats;
 }
@@ -26,52 +27,37 @@ export interface Experience {
   highlights: string[];
 }
 
-export interface LighthouseMetrics {
-  performance: number;
-  seo: number;
-}
-
-export interface Subproject {
-  name: string;
-  url: string;
-  description: string;
-  metrics: LighthouseMetrics | null;
-}
-
-export interface ProjectMetric {
-  label: string;
-  value: string;
-}
+export type ProjectCategory =
+  | "studio"
+  | "co-founded-product"
+  | "personal"
+  | "ai-experiment";
 
 export interface Project {
   id: string;
   name: string;
-  code: string;
   subtitle: string;
   role: string;
   period: string | null;
   url: string | null;
-  image: string;
   description: string;
   stack: string[];
+  category: ProjectCategory;
   highlights?: string[];
-  metrics?: ProjectMetric[];
-  subprojects?: Subproject[];
 }
 
 export interface SkillCategory {
-  languages: string[];
-  frameworks: string[];
-  databases: string[];
-  cloud: string[];
-  architecture: string[];
-  soft: string[];
+  core: string[];
+  supporting: string[];
+  learning: string[];
+  ai: string[];
 }
 
 export interface Certification {
   name: string;
   issuer: string;
   year: number;
+  featured?: boolean;
 }
 
 export interface Education {

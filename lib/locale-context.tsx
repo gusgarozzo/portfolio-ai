@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
   useCallback,
+  useEffect,
   type ReactNode,
 } from "react";
 import type { Locale } from "@/lib/messages";
@@ -41,6 +42,10 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     (key: string) => translate(key, locale),
     [locale],
   );
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   return (
     <LocaleContext.Provider value={{ locale, setLocale, t }}>

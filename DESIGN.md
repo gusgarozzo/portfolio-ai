@@ -1,187 +1,168 @@
 ---
-name: Midnight Architect — Hybrid Edition
+name: Engineering Editorial — Fieldwork
 colors:
-  bg: '#000000'
-  surface: '#0B0B0B'
-  surface-deep: '#050505'
-  surface-accent: '#102034'
-  accent: '#C5A059'
-  border: '#1A1A1A'
-  text-primary: '#FFFFFF'
-  text-secondary: '#A1A1AA'
-  text-muted: '#52525B'
+  paper: '#F7F4EE'
+  paper-2: '#EFEAE0'
+  paper-3: '#E6E0D0'
+  ink: '#1C1913'
+  ink-soft: '#4C463C'
+  ink-mute: '#777062'
+  line: '#DDD6C8'
+  line-strong: '#C9C1B0'
+  signal: '#1C6B3F'
+  signal-strong: '#0E4A2A'
+  signal-tint: '#E3EDE2'
 typography:
-  display-lg:
-    fontFamily: Playfair Display
-    fontSize: 60px
-    fontWeight: '700'
-    lineHeight: '1.1'
-    letterSpacing: -0.01em
-  display-lg-mobile:
-    fontFamily: Playfair Display
-    fontSize: 40px
-    fontWeight: '700'
-    lineHeight: '1.2'
-  headline-md:
-    fontFamily: Playfair Display
-    fontSize: 36px
-    fontWeight: '700'
-    lineHeight: '1.2'
-  body-lg:
-    fontFamily: Inter
-    fontSize: 18px
-    fontWeight: '400'
-    lineHeight: '1.6'
-    letterSpacing: 0.01em
-  body-md:
-    fontFamily: Inter
-    fontSize: 16px
-    fontWeight: '400'
-    lineHeight: '1.6'
-  label-mono:
-    fontFamily: JetBrains Mono
-    fontSize: 11px
-    fontWeight: '500'
-    lineHeight: '1.0'
-    letterSpacing: 0.15em
-    textTransform: uppercase
-  data-mono:
-    fontFamily: JetBrains Mono
-    fontSize: 13px
-    fontWeight: '400'
-    lineHeight: '1.4'
-  caption-mono:
-    fontFamily: JetBrains Mono
-    fontSize: 10px
-    fontWeight: '500'
-    lineHeight: '1.4'
-    letterSpacing: 0.3em
+  display:
+    fontFamily: Archivo
+    weight: '800'
+    letterSpacing: -0.03em
+  body:
+    fontFamily: Source Sans 3
+    weight: '400'
+    lineHeight: '1.65'
+  meta:
+    fontFamily: IBM Plex Mono
+    size: 11px
+    letterSpacing: 0.14em
     textTransform: uppercase
 rounded:
-  sm: 0.125rem
-  DEFAULT: 0.25rem
-  md: 0.375rem
-  sharp: 0px
-  full: 9999px
-spacing:
-  unit: 8px
-  frame-inset: 24px
-  container-max: 1440px
+  sm: 6px
+  default: 10px
+  md: 14px
+  lg: 20px
+container:
+  max: 1200px
   gutter: 24px
-  margin-mobile: 20px
-  section-pad: 48px
-  section-gap: 96px
+  section-pad: 96px
 grid:
   columns: 12
-  hero-split: [4, 5, 3]
-  experience-split: [4, 8]
-  audit-split: [4, 8]
+  editorial-split: [4, 8]
 motion:
-  library: GSAP 3 + ScrollTrigger
+  library: IntersectionObserver + CSS transitions
 ---
 
 ## Brand & Style
-"Midnight Architect — Hybrid Edition" is the final visual identity for Gustavo Garozzo's portfolio: a Backend Engineer specialized in Node.js, NestJS and AWS. It fuses the **rigid, data-dense structure of an executive dashboard** with the **flowing, editorial verticality of a filmstrip gallery**.
+"Engineering Editorial — Fieldwork" is the visual identity for Gustavo Garozzo's portfolio. It positions him as a Backend Engineer (Node.js, TypeScript, NestJS, AWS, system integrations) with a growing, concrete AI Engineering line.
 
-The result reads as an operational control panel for a senior backend architect: authoritative, quiet and intentional. It rejects "gamer" developer tropes in favor of an editorial, high-end atmosphere where technical telemetry (mono labels, status pips, audit logs) coexists with luxury serif headlines.
+The identity reads like an **editorial engineering journal**: paper-based, typography-led, with a restrained technical instrumentation (mono labels, 1px rules, a single field-test diagram). It is contemporary, distinctive and memorable — **not** a generic corporate template, a fake system console, or an AI-generated website.
 
-The whole interface lives inside a single **dashboard frame** — a 24px inset border enclosing the viewport — segmented by 1px rule lines into distinct panels, evoking a blueprint or a systems console.
+Design personality (owner directive): assertive, editorial, technically credible. Big display type, one signal-green accent used sparingly, paper grain, real sharp microcopy, and a single architecture figure that shows only components Gustavo actually used.
 
 ## Colors
-The palette is rooted in "OLED Depth": absolute black canvases for infinite depth and maximum focus, with a single champagne-gold accent reserved for high-value signals.
+A warm paper-and-ink palette rooted in the original green accent (which was the only authentic brand element from the previous identity).
 
-- **Canvas / bg:** Absolute Black `#000000` — the foundation and the frame background.
-- **Surface:** Deep Charcoal `#0B0B0B` — elevated panels, cards, system bar.
-- **Surface Deep:** `#050505` — the darkest recessed panels (audit log body, card hover).
-- **Surface Accent:** Navy Container `#102034` — active/selected states and terminal-line hover.
-- **Accent:** Champagne Gold `#C5A059` — status pips, active borders, key metrics, hover text, links. Used sparingly.
-- **Border:** Deep Slate `#1A1A1A` — every 1px partition and rule line (structure, not shadow).
-- **Text Primary:** Pure White `#FFFFFF` — headlines and key values.
-- **Text Secondary:** Muted Grey `#A1A1AA` — body copy, reduces eye strain.
-- **Text Muted:** `#52525B` — metadata, mono captions, inactive labels.
+- **Paper:** Warm Off-White `#F7F4EE` — the climate; background of the whole interface.
+- **Paper 2:** `#EFEAE0` — recessed panels, nav container, chips. Slight tonal lift, no shadows.
+- **Paper 3:** `#E6E0D0` — hover states and deeper recesses.
+- **Ink:** `#1C1913` — near-black warm ink. Headlines, nav background on action, active states.
+- **Ink Soft:** `#4C463C` — body copy.
+- **Ink Mute:** `#777062` — metadata, captions, footer (verified AA on paper as secondary text).
+- **Line:** `#DDD6C8` — 1px hairline rules and borders.
+- **Line Strong:** `#C9C1B0` — stronger separators and table borders.
+- **Signal:** `#1C6B3F` — the only accent. Field-tested green; used for primary CTAs, key highlights, the status mark, and the AI line. Never used graphically for decoration at scale.
+- **Signal Strong:** `#0E4A2A` — hover of signal, link focus.
+- **Signal Tint:** `#E3EDE2` — the "learning / IA" callout background.
+
+No gradients across the whole interface; no glassmorphism; no fake dashboard tiles.
 
 ## Typography
-Three families create tension between editorial luxury and utilitarian precision.
+Three families with clear editorial hierarchy.
 
-- **Headlines — Playfair Display (serif):** All major headings (hero, section titles, project names). High-contrast strokes, tight tracking; italic + gold used for emphasis words (e.g. *Digital*).
-- **Body — Inter (sans):** Neutral, highly legible. Line-height 1.6 for the editorial feel.
-- **Data & Labels — JetBrains Mono:** All technical "telemetry" — system bar, section eyebrows, project codes, metric tables, tags, audit log, footer. Uppercase with wide tracking (0.15em–0.4em) for "architectural air".
+- **Display — Archivo (variable, weight up to 800):** Hero masthead, section titles, project names, pull-quote. Tight tracking (-0.03em), confident scale. The hero name uses an emphasized word in signal green with a handwritten-style underline sweep (`.link-sweep`).
+- **Body — Source Sans 3:** All paragraphs, descriptions, contact rows. Line-height 1.65.
+- **Meta — IBM Plex Mono (11px, +0.14em, uppercase):** Section eyebrows, figure captions, periods/locations, footer, chip labels, the architecture figure labels. This is the "instrumentation" layer — present but quiet, never decorative bloack.
 
-Hierarchy rule: every section opens with a mono eyebrow label (e.g. `TECHNICAL_TENURE_MANIFEST`, `PRODUCTION_TELEMETRY_LOG`) above a large Playfair title.
+Hierarchy rule: every section opens with a mono eyebrow (e.g. `EXPERIENCIA`, `CAPACIDADES`, `FORMACIÓN`) above a large display title. Sticky editorial left columns (About, Formación) hold the eyebrow + title while content scrolls on the right (4/8 split).
 
 ## Layout & Spacing
-A **strict 12-column dashboard grid** framed by a 24px inset border (`.dashboard-frame`).
+A single 1200px editorial column (`max-w-[1200px] mx-auto px-6`), 12-col grid, sections stacked vertically separated by 1px `line` rules.
 
-- **Frame:** 24px margin on all sides, 1px `#1A1A1A` border, min-height `calc(100vh - 48px)`.
-- **Panels:** Sections are grid rows separated by `section-border` (bottom 1px) and `vertical-border` (right 1px) rules — no gaps, panels butt against each other.
-- **Hero:** 3-column split `4 / 5 / 3` (intro copy · video map · stat column).
-- **Experience:** `4 / 8` split (company selector list · detail panel).
-- **Audit:** `4 / 8` split (title panel · scrolling terminal log).
-- **Rhythm:** 8px base unit. Panel padding 48px (desktop) / 32px. Section vertical padding ~96px on standalone sections (projects, architecture).
-- **Mobile (375px):** Columns collapse to single-column stacks (`col-span-12`); vertical/section borders are preserved to keep the console feel; type scales down (Playfair 60px → 40px).
+- **Container:** 1200px (decision documented: planned 1160px was widened to give the editorial type room).
+- **Sections:** `grid grid-cols-1 lg:grid-cols-12` split `[4, 8]` (About, Formación) or full width (Experience, Projects, Skills, Contact). Each section renders its own `<section id>` with `scroll-mt-24` + `border-t border-line` for clear editorial rhythm.
+- **Hero:** editorial masthead — kicker (`HERO_KICKER` "Backend Engineer · Node.js · TypeScript · NestJS"), name display, summary lead + sub-lead, CTAs, and an editorial facts row (experience / stack / seniority) as standalone stat lines over a hairline rule. Right column holds the generated editorial plate (`/images/hero.webp`, 3:2, decorative).
+- **Sticky columns:** About/Formación left column `lg:sticky lg:top-24 self-start`.
+- **Footer:** single line editorial — name, `FOOTER_ROLE`, links, "Hecho en Tandil · 2022-2026".
+- **Responsive:** single column below lg; type scales down (display 8xl → 5xl/4xl); sticky columns become static; nav collapses to a hamburger panel.
 
-## Elevation & Depth
-Depth is conveyed through **tonal layering and 1px borders**, never shadows.
+## The Architecture Figure (Fig. 02)
+The Experience section closes with **one** SVG figure (`components/experience/ArchitectureFigure.tsx`) in a bordered panel with a mono caption. It is the "field test" diagram of Gustavo's real production shape. (Moved out of the Hero in the imagery iteration; no diagram substitute in the hero.)
 
-- **Layers:** `#000000` base → `#0B0B0B` surface → `#050505` recessed → `#102034` active/selected.
-- **Borders:** 1px `#1A1A1A` defines every edge and partition.
-- **Interaction:** On hover, borders/text shift toward Champagne Gold; underlines and rule lines expand (`w-0 → w-full`) rather than glow.
-- **Photography:** High-contrast, grayscale + `brightness-50` by default; on hover transition to full color/brightness (`grayscale-0 brightness-100`, 700ms). Images behave as "windows" into the dark architecture. Hero uses a grayscale topographical video map at 30% opacity.
+- **Left column — AIOTEK · INTEGRACIONES:** Web · Mobile · ERP clients → APIs REST Node.js / NestJS (connectivity with ERPs & marketplaces · Swagger) → Pipeline FTP (invoices · batch) → PostgreSQL / Sequelize + Redis cache.
+- **Right column — QWAVEE IT · SERVERLESS AWS:** API Gateway → Lambda → S3 (+ CloudWatch).
+- **Bottom band — GOOGLE CLOUD · SOPORTE:** Cloud SQL · Pub/Sub · Cloud Monitoring · GKE (básico).
 
-## Shapes
-Technical and precise.
+Rules honored:
+- Only components Gustavo actually used. No decorative nodes (`YOU_ARE_HERE` was explicitly removed).
+- AWS appears as the primary cloud; Google Cloud appears as real-scope support (Cloud SQL, Pub/Sub, Cloud Monitoring, GKE básico) — never equivalent-expertise framing.
+- The personal AI/Gemini line does **not** appear in the professional figure; it lives in the Weather API card and the Skills "Línea de IA" callout.
+- Caption `FIGURE_CAPTION` + honest note `FIGURE_NOTE`.
 
-- **UI elements** (skill nodes, company rows, buttons): 4px radius (`rounded-sm`).
-- **Media, project cards, hero containers:** 0px (sharp) corners for the editorial layout.
-- **Status indicators:** Small 8×8px square pips (never circles), gold, `animate-pulse`.
+## Imagery
+
+Generated editorial photography (RunComfy Nano Banana 2 via the `ai-image-generation` skill) + a real portrait. Palette-locked to paper/ink/signal; no text, screens, code, hardware or people in the generated shots; generous negative space; offset-print materiality.
+
+- **Hero plate** (`public/images/hero.webp`, 3:2, generated): abstract editorial still-life — layered paper/folded forms studio-lighted. Decorative (`alt=""`).
+- **Portrait** (`public/images/portrait.webp`, ~3:4, from `me.webp`): About sticky left column, `rounded-lg border border-line bg-paper-2`, filter `grayscale(0.2) sepia(0.05) contrast(1.02)`. Informative `PORTRAIT_ALT`; caption is data-only (`name · title`). `me.webp` (896×1200) is kept as the source master.
+- **Project covers** (generated): `cover-barking-dogs.webp` (wide), `cover-weather-api.webp` (4:3, keeps the `GEMINI FLASH 2.5` chip overlay), `cover-watchdog.webp` (4:3). Decorative `alt=""` (project name is already in the card markup). Sinergy + ClickCore keep code-native covers.
+
+Served via `next/image` (`fill` for covers, width/height for hero and portrait — no CLS). `next.config.ts`: `images.formats: ["image/webp"]`. Source JPG masters (`hero.jpg`, `barking-dogs.jpg`, `weather-api.jpg`, `watchdog.jpg`) are retained in `public/images/` as the canonical generated output.
+
+## Covers (Projects)
+Each project card has a differentiated cover driven by the product — not decorative variations of one resource. Featured playing: Barking Dogs, Weather API and WatchDog use generated editorial photography (see Imagery); Sinergy and ClickCore stay code-native.
+
+- **Barking Dogs:** generated studio plate (3:2, image).
+- **Sinergy Consulting Platform:** executive grid / "informe ejecutivo" — repeating line grid + green vertical bar (code-native).
+- **WatchDog Price Tracker:** generated tactile plate (4:3, image).
+- **ClickCore Agency Landing:** layered/stacked cards (code-native).
+- **Weather API:** generated atmospheric plate (4:3) + `GEMINI FLASH 2.5` chip overlay — visually distinct as a personal/AI experiment.
+
+No simulated metrics on any cover or card.
 
 ## Components
 
-### System Status Bar
-Sticky top bar (`z-50`), `#0B0B0B` surface, 1px bottom border, mono uppercase 11px. Left: `SYS.AUTH` + typed name/role. Center: typed location + live clock. Right: gold square pip + typed `STATUS: READY_FOR_INTEGRATION`. Text reveals via terminal typing effect on load.
+### Navbar
+Sticky, `bg-paper/85 backdrop-blur`, 1px bottom border. Left: mono signature `Gustavo Garozzo`. Right: scrollspy nav (Experiencia, Proyectos, Capacidades, Formación, Contacto) with `aria-current`, an ES/EN segmented control (`role=group`, `aria-pressed`, leaves `document.documentElement.lang` in sync), CTA "¿Trabajamos?" (hidden below xl). Mobile: hamburger → full panel, `aria-expanded`, Escape closes, 44px targets.
 
-### Hero Topography
-3-column panel. Left: Playfair headline with italic-gold accent word, Inter intro, mono command lines (`[ CMD ] INITIATE_HANDSHAKE`, gold email). Center: grayscale topographical **video map** (`object-cover grayscale opacity-30`) with a bottom-to-top black gradient, a `LIVE_TELEMETRY_FEED` mono overlay, and GSAP parallax (yPercent 20 on scroll). Right: stacked stat blocks (`Experience_Cycle`, `Primary_Stack`, `Seniority_Grade`) with gold mono eyebrows and Playfair values; animated gold underline on hover.
+### Hero
+Masthead. Kicker + name (with emphasized word), summary lead + sub-lead, CTA row, editorial fact lines over a hairline divider. Right column: generated editorial plate (3:2, bordered, `alt=""`).
 
-### Experience Manifest
-`4 / 8` split. Left: `TECHNICAL_TENURE_MANIFEST` list of company rows — active row uses `#102034` fill + gold border, inactive rows muted with `hover:border-muted`. Right: selected company detail — Playfair company name, gold mono role, right-aligned mono period/location, numbered highlight list (`[01]`, `[02]`… in gold mono).
+### About
+4/8 editorial split (sticky left). Left column: eyebrow + title, editorial portrait figure (`portrait.webp` + data-only caption), location/stack meta, `ABOUT_MORE`. Right: paragraphs + a closing pull-quote blockquote, with email/LinkedIn inline links.
 
-### Filmstrip Projects (from the Art Gallery Manifest)
-Horizontal snap-scroll strip (`overflow-x-auto snap-x`, hidden scrollbar). Each card: **450px wide, 9:16 aspect, 0px corners**, `#0B0B0B` surface with right border, on hover deepens to `#050505`.
-- **Header (45% height):** technical grayscale image, color reveal on hover.
-- **Body:** gold mono code (`BD_SINERGY_01`), Playfair title (gold on hover), Inter description, a mono **metric table** (label · gold/white value, `opacity-60 → 100` on hover), and bordered mono tag chips.
-- **Glitch/Scan overlay:** a `repeating-linear-gradient` gold scanline overlay (`.glitch-overlay`) that fades in and runs the `scan` keyframe animation on hover.
+### Experience
+Vertical editorial timeline. Each entry: period/location (mono, right or above), company display title, role meta in signal, highlight bullets "squares" (signal). All entries stacked — no selector list.
 
-### Architecture Topology
-Full-width `#0B0B0B` panel with faint SVG circuit lines (opacity 0.1). Centered `ARCHITECTURE_TOPOLOGY` eyebrow, a gold-bordered `BACKEND_SYSTEM_CORE` root node, and 3 columns (Languages · Infrastructure · Mindset) of `.skill-node` pills (4px radius, 1px border, 13px). Key nodes highlighted with gold border.
+### Projects
+Tiered: Barking Dogs featured full-width (image cover) → Weather API + WatchDog in a 2-col image tier (Weather emphasized with a signal border) → Sinergy + ClickCore in a 2-col code-native tier. Alternating vertical offset (`md:mt-12`) in each tier. Categories from messages; link labels differentiate GitHub (VER CÓDIGO) vs store (ABRIR APP) vs site (VISITAR).
 
-### Audit Log Terminal
-`4 / 8` split. Left: `AUDIT_LOG / CERTIFICATES` eyebrow, Playfair title, mono `LAST_PARSED` timestamp. Right: `#050505` scrollable terminal (custom 4px gold-less scrollbar) that populates certification lines progressively via JS/GSAP (staggered fade + x-shift); each `.terminal-line` hovers to `#102034` + gold.
+### Skills ("Capacidades")
+Four editorial columns: **Core**, **Supporting**, **Learning**, and the **Línea de IA** callout (signal-tint panel, links to Weather API). Under Supporting, an honest GCP scope note (`SKILLS_GCP_NOTE`): Cloud SQL / Pub/Sub / Cloud Monitoring / GKE básico.
 
-### Footer
-`#000000`, mono 10px, wide tracking. Left: copyright `// HYBRID_EDITION.SYS`. Center: bracketed links `[ LINKEDIN ]` `[ GITHUB ]` (gold on hover). Right: `VER: 4.2.0-STABLE`.
+### Formación (new)
+Education + certifications merged into one section. 4/8 sticky split. Education as `dl` rows; certifications as `ul` with year column, sorted desc.
 
-### Buttons & Links
-- **Primary:** Champagne Gold bg, black text, 4px radius, no border.
-- **Secondary:** transparent, 1px `#1A1A1A` border, white text.
-- **Ghost / links:** mono uppercase, gold-on-hover, subtle underline expansion.
+### Contact
+Editorial. Sticky left header + "Disponibilidad" block (signal border). Right: channel rows (email, tel, LinkedIn, GitHub, CV) separated by rules.
 
-### Status Indicators
-8×8px gold squares, `animate-pulse`. Never circular.
+### Chat (AskGustavo)
+Floating pill trigger (bottom-6 right-6, `bg-ink text-paper`). Opens a paper dialog. Same API/UX logic preserved: `role=dialog`, aria-live, Escape, focus management, rate-limit cooldown, streaming. Only surface changed. Suggested chips from messages.
 
-## Motion Design (GSAP 3 + ScrollTrigger)
-Motion is subtle, technical and purposeful — reinforcing the "live system" metaphor.
+## Motion
+No animation library. `lib/use-reveal.ts` = one IntersectionObserver hook; CSS transitions for reveals, hover states, underline sweeps. Global `prefers-reduced-motion` kills all animation. Default states never rely on JS (content visible if JS fails).
 
-- **Terminal Typing:** `typeEffect()` utility reveals system-bar metadata and status character-by-character on load (30–50ms/char), status delayed ~1.5s.
-- **Audit Log Populate:** certification lines appended on a 200ms stagger, each fading in with a small x-shift.
-- **Hero Parallax:** `#hero-video` scrubs `yPercent: 20` across the hero scroll range.
-- **Entrance Reveals:** `.reveal-text` panels fade + rise (`y → 0`, opacity, `power2.out`) at `top 90%`, `toggleActions: play none none reverse`.
-- **Filmstrip Reveal:** project cards enter with `x: 100`, opacity, 0.2s stagger, `power3.out` when the projects section hits `top 80%`.
-- **Scan/Glitch:** CSS-driven gold scanline overlay animates on card hover (`scan` keyframe, 4s linear infinite).
+## Accessibility & Interaction
+- Semantic HTML; one `h1`; correct h2/h3 hierarchy; section landmarks.
+- Visible focus: `focus-visible` outline signal; skip-to-content link.
+- 44px minimum touch targets (nav, chat trigger, buttons, language switch).
+- Keyboard nav: Escape closes mobile menu & dialog; spinner logic intact.
+- Contrast: ink/ink-soft on paper verified AA; signal `#1C6B3F` on paper used for primary CTA text/label minimum 4.5:1; status conveyed with text, never color-only.
+- Reduced motion honored globally.
 
 ## Implementation Notes
-- Tokens above map to Tailwind v4 theme variables; define them in `app/globals.css` under `@theme` (e.g. `--color-accent: #C5A059`, `--color-surface: #0B0B0B`).
-- Fonts loaded via `next/font` (Playfair Display, Inter, JetBrains Mono) exposed as CSS variables and mapped to `font-playfair` / `font-sans` / `font-mono`.
-- GSAP + ScrollTrigger are new dependencies — **confirm with the owner before installing** (per AGENTS.md); animations should be guarded behind `prefers-reduced-motion`.
-- Remote images/video (Unsplash, Pexels) require `remotePatterns` in `next.config.ts` and must use `<Image>` with descriptive `alt`; the hero video is a standard `<video>` element.
-- All content (metrics, codes, copy) must live in `data/` — the mock metrics shown in the design (latency, perf scores) need real values added to `data/projects.ts` before use.
+- Tokens in `app/globals.css` under `@theme` (`--color-paper`, `--color-signal`, etc.). Grain via `body::after` SVG noise at low opacity. `themeColor #F7F4EE`.
+- Fonts via `next/font` (Archivo, Source Sans 3, IBM Plex Mono) exposed as `--font-display`, `--font-sans`, `--font-mono`.
+- Covers are driven by the product: Barking Dogs, Weather API and WatchDog use generated photography via `next/image` (`/images/cover-*.webp`); Sinergy and ClickCore are code-native (CSS/SVG). No `remotePatterns` needed — all images are local.
+- Imagery: local `public/images/*.webp` optimized with sharp; `next.config.ts` set to `images.formats: ["image/webp"]`. Hero and portrait carry width/height; covers use `fill` inside fixed-height containers (no CLS). Generated shots contain no text/screens/code/hardware.
+- Content single-source: `lib/messages.ts` (es/en), `data/personal.ts`, `data/about-me.ts`, `data/experience.ts`, `data/projects.ts`, `data/skills.ts`, `data/education.ts`, `data/certifications.ts`, `data/summary.ts`. `types/portfolio.ts` no longer carries `Project.code`/`image`.
+- The chat persona (`app/api/chat/route.ts`) is a plain, professional assistant — no terminal/`[ERROR]` framing. Scope guard, tier rules, honesty and metrics rules unchanged.
