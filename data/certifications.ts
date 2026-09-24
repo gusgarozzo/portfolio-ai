@@ -8,6 +8,14 @@ const es: Certification[] = [
     featured: true,
   },
   {
+    name: "Fundamentos de AWS: Cloud, Serverless y Operación",
+    issuer: "Commit Academy",
+    year: 2026,
+    featured: true,
+  },
+  { name: "DevOps esencial", issuer: "LinkedIn", year: 2026 },
+  { name: "Desarrollo de Software con IA", issuer: "BIG school", year: 2026 },
+  {
     name: "Programación en Pareja (Pair Programming) con IA",
     issuer: "LinkedIn",
     year: 2026,
@@ -55,6 +63,14 @@ const en: Certification[] = [
     year: 2026,
     featured: true,
   },
+  {
+    name: "AWS Fundamentals: Cloud, Serverless, and Operations",
+    issuer: "Commit Academy",
+    year: 2026,
+    featured: true,
+  },
+  { name: "Essential DevOps", issuer: "LinkedIn", year: 2026 },
+  { name: "Software Development with AI", issuer: "BIG school", year: 2026 },
   {
     name: "Pair Programming with AI",
     issuer: "LinkedIn",
