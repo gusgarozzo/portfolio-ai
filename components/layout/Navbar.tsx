@@ -4,7 +4,7 @@ import { personal as personalData } from "@/data/personal";
 import { useLocale } from "@/lib/locale-context";
 import { useEffect, useRef, useState } from "react";
 
-const SECTION_IDS = ["about", "experience", "projects", "skills", "formacion", "contact"];
+const SECTION_IDS = ["about", "experience", "recomendaciones", "projects", "skills", "formacion", "contact"];
 
 export default function Navbar() {
   const { locale, setLocale, t } = useLocale();
@@ -49,6 +49,7 @@ export default function Navbar() {
   const sections = [
     { id: "about", label: t("NAV_ABOUT") },
     { id: "experience", label: t("NAV_EXPERIENCE") },
+    { id: "recomendaciones", label: t("NAV_RECOMENDACIONES") },
     { id: "projects", label: t("NAV_PROJECTS") },
     { id: "skills", label: t("NAV_SKILLS") },
     { id: "formacion", label: t("NAV_FORMACION") },

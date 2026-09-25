@@ -6,6 +6,7 @@ import { skills } from "@/data/skills";
 import { certifications } from "@/data/certifications";
 import { education } from "@/data/education";
 import { aboutMe } from "@/data/about-me";
+import { recommendations } from "@/data/recommendations";
 
 function buildLocaleSection(locale: "es" | "en"): string {
   const p = personal[locale];
@@ -84,6 +85,13 @@ function buildLocaleSection(locale: "es" | "en"): string {
     lines.push(`  ${e.title} — ${e.institution}`);
     if (e.period) lines.push(`    Period: ${e.period}`);
     if (e.note) lines.push(`    Note: ${e.note}`);
+  }
+  lines.push("");
+
+  lines.push("Recommendations:");
+  for (const r of recommendations[locale]) {
+    lines.push(`  ${r.name} — ${r.role} @ ${r.company}`);
+    lines.push(`    Quote: ${r.text}`);
   }
   lines.push("");
 

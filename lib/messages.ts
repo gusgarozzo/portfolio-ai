@@ -82,6 +82,7 @@ export const messages: MessagesMap = {
   NAV_LANGUAGE: { es: "Idioma", en: "Language" },
   NAV_ABOUT: { es: "Acerca", en: "About" },
   NAV_EXPERIENCE: { es: "Experiencia", en: "Experience" },
+  NAV_RECOMENDACIONES: { es: "Recomendaciones", en: "Recommendations" },
   NAV_PROJECTS: { es: "Proyectos", en: "Projects" },
   NAV_SKILLS: { es: "Capacidades", en: "Capabilities" },
   NAV_FORMACION: { es: "Formación", en: "Education" },
@@ -156,6 +157,14 @@ export const messages: MessagesMap = {
   PROJECTS_INTRO: {
     es: "Trabajo en producción, productos co-fundados y experimentos personales.",
     en: "Production work, co-founded products, and personal experiments.",
+  },
+
+  // Recommendations
+  RECS_EYEBROW: { es: "Testimonios", en: "Testimonials" },
+  RECS_TITLE: { es: "Recomendaciones", en: "Recommendations" },
+  RECS_INTRO: {
+    es: "Opiniones de compañeros y líderes con los que compartí proyectos y equipos de trabajo.",
+    en: "Comments from colleagues and leaders I shared projects and teams with.",
   },
   VISIT_SITE: { es: "Visitar sitio", en: "Visit site" },
   OPEN_APP: { es: "Abrir app", en: "Open app" },

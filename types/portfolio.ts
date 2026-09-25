@@ -66,3 +66,11 @@ export interface Education {
   period: string | null;
   note: string | null;
 }
+
+export interface Recommendation {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  text: string;
+}

@@ -28,6 +28,7 @@ describe("buildCvContext", () => {
     expect(output).toContain("Skills:");
     expect(output).toContain("Certifications:");
     expect(output).toContain("Education:");
+    expect(output).toContain("Recommendations:");
   });
 
   it("includes skill tiers and project categories", () => {

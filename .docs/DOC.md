@@ -1,3 +1,22 @@
+## Sesión — 2026-09-25 — Sección "Recomendaciones"
+
+### Contexto
+- El owner entrega las 6 recomendaciones recibidas por LinkedIn (texto original, literal, sin corregir) y pide una nueva sección "Recomendaciones". Prioridad de la narrativa: Experiencia → Recomendaciones → Proyectos.
+- Decisiones del owner: en modo EN se traducen solo roles, las citas se mantienen verbatim en español; agregar "Recomendaciones" al navbar.
+
+### Implementado
+- **Tipo** `Recommendation` en `types/portfolio.ts` (`id`, `name`, `role`, `company`, `text`). Sin URL de LinkedIn (no hay URLs verificables en el repo).
+- **Datos** `data/recommendations.ts`: `Record<"es"|"en", Recommendation[]>` con 6 entradas — Yamila Pérez (Jefa de RRHH · AIOTEK), Adrian Quevedo (Jefe del área de Arquitectura e Infraestructura · AIOTEK), Matias Valenzisi (Compañero de equipo · AIOTEK), Marcelo Limideiro (Compañero de equipo · Qwavee IT · AIOTEK), Julian Cano (Team Leader · Qwavee IT), Juan Sebastian Bedescaraburre (Jefe del RRHH · Qwavee IT). Textos **byte-idénticos** al material del owner en ambos locales (errores de tipeo originales conservados); roles traducidos al inglés (`en`) — Head of HR, Head of Architecture and Infrastructure, Team colleague.
+- **Componente** `components/recomendaciones/Recomendaciones.tsx`: patrón estándar del portfolio (eyebrow mono + `display-section` + intro `body-md` a la derecha, `useLocale`, `useReveal`). Grilla `md:grid-cols-2` con cards `rounded-xl border-line bg-paper`, avatar de **iniciales** (`aria-hidden`) derivadas del nombre, `h3` por persona, rol en `text-signal`, empresa en `text-ink-mute`, cita en `blockquote` con `whitespace-pre-line` (preserva saltos de línea originales). Alturas no forzadas; offset alternado `md:mt-12`.
+- **i18n** `lib/messages.ts`: claves `NAV_RECOMENDACIONES`, `RECS_EYEBROW`, `RECS_TITLE`, `RECS_INTRO` (es/en no vacíos; guard test OK).
+- **Navbar**: `SECTION_IDS` + `sections` incluyen `recomendaciones` entre Experiencia y Proyectos (desktop y menú mobile, scroll-spy automático).
+- **Página** `app/page.tsx`: `<Recommendations />` entre `<Experience />` y `<Projects />`.
+- **Chat**: `lib/build-cv-context.ts` agrega bloque `Recommendations:` (name — role @ company · Quote) al contexto CV, para que el asistente pueda responder "¿Qué dicen sus compañeros sobre Gustavo?" con evidencia factual. Expectativa en `build-cv-context.test.ts`.
+
+### Validación
+- `npm run lint` limpio · `npm run test` 59/59 · `npm run build` OK (11 test files).
+- Sin revisión visual por navegador en esta iteración (owner revisará el sitio publicado).
+
 ## Sesión — 2026-09-23 (Fase 2 · tipografía + hero + covers nativas)
 
 ### Contexto
